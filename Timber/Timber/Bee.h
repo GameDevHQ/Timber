@@ -2,7 +2,7 @@
 #include "Object.h"
 
 
-class Bee : public Object
+class Bee: public Object
 {
 private:
     bool isActive;

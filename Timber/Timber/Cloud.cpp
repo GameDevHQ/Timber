@@ -9,7 +9,7 @@ speed(0.0f),
 startPositionY(positionY),
 movementScale(movementScale)
 {
-    objectTexture = texture;
+    objectTexture = std::move(texture);
 
     objectSprite.setTexture(objectTexture);
     objectSprite.setPosition(positionX, positionY);
