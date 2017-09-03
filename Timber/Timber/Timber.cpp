@@ -1,108 +1,65 @@
 #include "stdafx.h"
-
-#include "SFML/Graphics.hpp"
-
-using namespace sf;
-
-const int windowHeight = 1920;
-const int windowWidth  = 1080;
+#include <vector>
+#include "Background.h"
+#include "Bee.h"
+#include "Cloud.h"
+#include "Tree.h"
 
 
 int main()
 {
 	// Create and open a SFML window
-	VideoMode vm(windowHeight, windowWidth);
+	VideoMode vm(WINDOW_HEIGHT, WINDOW_WIDTH);
 	RenderWindow window(vm, "Timber", Style::Fullscreen);
 
-	// Get the background
-	Texture textureBackground;
-	textureBackground.loadFromFile("Resources/Graphics/background.png");
-
-	Sprite spriteBackground;
-	spriteBackground.setTexture(textureBackground);
-	spriteBackground.setPosition(0, 0);
-
-	// Add a tree on the scene
-	Texture textureTree;
-	textureTree.loadFromFile("Resources/Graphics/tree.png");
-
-	Sprite spriteTree;
-	spriteTree.setTexture(textureTree);
-	spriteTree.setPosition(windowWidth / 2, 0);
-
-	// Prepare a bee
-	bool beeActive = false;
-	float beeSpeed = 0.0f;
-
-	Texture textureBee;
-	textureBee.loadFromFile("Resources/Graphics/bee.png");
-
-	Sprite spriteBee;
-	spriteBee.setTexture(textureBee);
-	spriteBee.setPosition(0, 800);
+	// Prepare rendered objects...
+	Background background;
+	Tree tree(810.f, 0.0f);
+	Bee bee(0.0f, 800.f);
 
 	// Make three cloud sprites from one texture
 	Texture textureCloud;
 	textureCloud.loadFromFile("Resources/Graphics/cloud.png");
 	
-	bool cloud1Active = false;
-	bool cloud2Active = false;
-	bool cloud3Active = false;
+	std::vector<Cloud> clouds;
+	clouds.emplace_back(Cloud(0.0f, 0.0f, textureCloud));
+	clouds.emplace_back(Cloud(0.0f, 150.0f, textureCloud));
+	clouds.emplace_back(Cloud(0.0f, 300.0f, textureCloud));
 
-	float cloud1Speed = 0.0f;
-	float cloud2Speed = 0.0f;
-	float cloud3Speed = 0.0f;
-
-	// 3 New sprites withe the same texture
-	Sprite spriteCloud1;
-	Sprite spriteCloud2;
-	Sprite spriteCloud3;
-	spriteCloud1.setTexture(textureCloud);
-	spriteCloud2.setTexture(textureCloud);
-	spriteCloud3.setTexture(textureCloud);
-
-	spriteCloud1.setPosition(0, 0);
-	spriteCloud2.setPosition(0, 150);
-	spriteCloud3.setPosition(0, 300);
-
+	Clock clock;
 
 	while(window.isOpen())
 	{
-		/*
-		**************************************************
-		Handle the players input
-		**************************************************
-		*/
+		//--------------------------------------------------
+		// Handle the players input
+		//--------------------------------------------------
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
 			window.close();
 		}
 
-		/*
-		**************************************************
-		Update the scene
-		**************************************************
-		*/
+		//--------------------------------------------------
+		// Update the scene
+		//--------------------------------------------------
+		// Measure time
+		Time timedelta = clock.restart();
 
-		/*
-		**************************************************
-		Draw the scene
-		**************************************************
-		*/
+		//--------------------------------------------------
+		// Draw the scene
+		//--------------------------------------------------
+		
 		window.clear();
 
-		window.draw(spriteBackground);
+		background.Draw(window);
 
-		window.draw(spriteCloud1);
-		window.draw(spriteCloud2);
-		window.draw(spriteCloud3);
+		for (auto cloud: clouds)
+			cloud.Draw(window);
 
-		window.draw(spriteTree);
-		window.draw(spriteBee);
+		tree.Draw(window);
+		bee.Draw(window);
 
 		window.display();
 	}
 
 	return 0;
 }
-
