@@ -22,9 +22,9 @@ int main()
 	textureCloud.loadFromFile("Resources/Graphics/cloud.png");
 	
 	std::vector<Cloud> clouds;
-	clouds.emplace_back(Cloud(0.0f, 0.0f, textureCloud));
-	clouds.emplace_back(Cloud(0.0f, 150.0f, textureCloud));
-	clouds.emplace_back(Cloud(0.0f, 300.0f, textureCloud));
+	clouds.emplace_back(Cloud(0.0f, 0.0f, textureCloud, 10));
+	clouds.emplace_back(Cloud(0.0f, 150.0f, textureCloud, 20));
+	clouds.emplace_back(Cloud(0.0f, 300.0f, textureCloud, 30));
 
 	Clock clock;
 
@@ -41,20 +41,22 @@ int main()
 		//--------------------------------------------------
 		// Update the scene
 		//--------------------------------------------------
-		// Measure time
+		// Time elapsed after previous frame
 		Time timedelta = clock.restart();
 		
 		bee.Update(window, timedelta);
 
+		for (auto it = clouds.begin(); it != clouds.end(); it++)
+			it->Update(window, timedelta);
+
 		//--------------------------------------------------
 		// Draw the scene
 		//--------------------------------------------------
-		
 		window.clear();
 
 		background.Draw(window);
 
-		for (auto cloud: clouds)
+		for (Cloud cloud: clouds)
 			cloud.Draw(window);
 
 		tree.Draw(window);

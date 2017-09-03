@@ -20,11 +20,11 @@ void Bee::Update(RenderWindow& window, Time timedelta)
 	if (!isActive)
 	{
 		// How fast is the bee
-		srand((int)time(0) * 10);
+		srand((int)time(NULL) * 10);
 		speed = (rand() % 200) + 200;
 
 		// How high is the bee
-		srand((int)time(0) * 10);
+		srand((int)time(NULL) * 10);
 		float startPositionX = WINDOW_WIDTH + objectTexture.getSize().x;
 		float startPositionY = (rand() % 500) + 500;
 		objectSprite.setPosition(startPositionX, startPositionY);

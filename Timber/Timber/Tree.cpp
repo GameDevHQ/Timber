@@ -13,7 +13,6 @@ Tree::Tree(float positionX, float positionY): Object("Resources/Graphics/tree.pn
 
 void Tree::Update(RenderWindow& window, Time timedelta)
 {
-
 }
 
 
