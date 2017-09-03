@@ -43,6 +43,8 @@ int main()
 		//--------------------------------------------------
 		// Measure time
 		Time timedelta = clock.restart();
+		
+		bee.Update(window, timedelta);
 
 		//--------------------------------------------------
 		// Draw the scene
