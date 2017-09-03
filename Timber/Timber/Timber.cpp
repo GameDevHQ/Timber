@@ -28,26 +28,38 @@ int main()
 
     Clock clock;
 
+    // Track whether the game is running
+    bool isPaused = true;
+
     while(window.isOpen())
     {
         //--------------------------------------------------
         // Handle the players input
         //--------------------------------------------------
+        // Exit from the game
         if (Keyboard::isKeyPressed(Keyboard::Escape))
         {
             window.close();
+        }
+        // Start the game
+        else if (Keyboard::isKeyPressed(Keyboard::Return))
+        {
+            isPaused = false;
         }
 
         //--------------------------------------------------
         // Update the scene
         //--------------------------------------------------
-        // Time elapsed after previous frame
-        Time timedelta = clock.restart();
-        
-        bee.Update(window, timedelta);
+        if (!isPaused)
+        {
+            // Time elapsed after previous frame
+            Time timedelta = clock.restart();
 
-        for (auto it = clouds.begin(); it != clouds.end(); it++)
-            it->Update(window, timedelta);
+            bee.Update(window, timedelta);
+
+            for (auto it = clouds.begin(); it != clouds.end(); it++)
+                it->Update(window, timedelta);
+        }
 
         //--------------------------------------------------
         // Draw the scene

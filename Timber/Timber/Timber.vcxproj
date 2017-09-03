@@ -148,9 +148,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bee.h" />
     <ClInclude Include="Cloud.h" />
