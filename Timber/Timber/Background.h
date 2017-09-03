@@ -5,8 +5,8 @@
 class Background : public Object
 {
 public:
-	Background();
+    Background();
 
-	virtual void Update(RenderWindow& window, Time timedelta) override;
-	virtual void Draw(RenderWindow& window) override;
+    virtual void Update(RenderWindow& window, Time timedelta) override;
+    virtual void Draw(RenderWindow& window) override;
 };

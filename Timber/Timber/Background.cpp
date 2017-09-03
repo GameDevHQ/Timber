@@ -4,10 +4,10 @@
 
 Background::Background(): Object("Resources/Graphics/background.png")
 {
-	objectTexture.loadFromFile(pathToTexture);
+    objectTexture.loadFromFile(pathToTexture);
 
-	objectSprite.setTexture(objectTexture);
-	objectSprite.setPosition(0, 0);
+    objectSprite.setTexture(objectTexture);
+    objectSprite.setPosition(0, 0);
 }
 
 
@@ -18,5 +18,5 @@ void Background::Update(RenderWindow& window, Time timedelta)
 
 void Background::Draw(RenderWindow& window)
 {
-	window.draw(objectSprite);
+    window.draw(objectSprite);
 }
