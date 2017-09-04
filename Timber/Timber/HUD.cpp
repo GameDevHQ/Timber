@@ -45,6 +45,10 @@ timeBarWidthPerSecond(60)
     timeBar.setSize(Vector2f(timeBarStartWidth, timeBarHeight));
     timeBar.setFillColor(Color::Red);
     timeBar.setPosition((WINDOW_WIDTH / 2) - timeBarStartWidth / 2, 980);
+
+    scoreTextBackground.setFillColor(sf::Color(0, 0, 0, 150));
+    scoreTextBackground.setSize(Vector2f(570, 105));
+    scoreTextBackground.setPosition(0, 30);
 }
 
 
@@ -65,6 +69,11 @@ void HUD::updateScore(int score)
     std::stringstream ss;
     ss << "Score = " << score;
     scoreText.setString(ss.str());
+
+    FloatRect scoreTextSize = scoreText.getLocalBounds();
+    scoreTextBackground.setFillColor(sf::Color(0, 0, 0, 150));
+    scoreTextBackground.setSize(Vector2f(scoreTextSize.width + 50, 105));
+    scoreTextBackground.setPosition(0, 30);
 }
 
 
@@ -102,6 +111,7 @@ void HUD::draw(RenderWindow& window)
     window.draw(timeBar);
 
     // Display messages on the screen
+    window.draw(scoreTextBackground);
     window.draw(scoreText);
     if (pIsPaused && (*pIsPaused))
     {

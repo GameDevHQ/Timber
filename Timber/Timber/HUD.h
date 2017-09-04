@@ -13,6 +13,8 @@ private:
     Text messageText;
     Text scoreText;
     Font font;
+    
+    RectangleShape scoreTextBackground;
 
     RectangleShape timeBar;
     float timeBarStartWidth;
