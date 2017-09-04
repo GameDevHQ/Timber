@@ -3,11 +3,12 @@
 #include <sstream>
 
 
-HUD::HUD(bool* pIsPaused, int* pScore, float* pTimeRemaining) :
+HUD::HUD(bool* pIsPaused, int* pScore, float* pTimeRemaining, bool* pPlayerIsDied):
 Object(),
 pIsPaused(pIsPaused),
 pScore(pScore),
 pTimeRemaining(pTimeRemaining),
+pPlayerIsDied(pPlayerIsDied),
 timeBarWidthPerSecond(60)
 {
     font.loadFromFile("Resources/Fonts/KOMIKAP_.ttf");
@@ -55,7 +56,7 @@ void HUD::setMessageText(std::string text)
     // Reposition the text based on its new size
     FloatRect textRect = messageText.getLocalBounds();
     messageText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-    messageText.setPosition(WINDOW_WIDTH / 2.0f, 1080 / 2.0f);
+    messageText.setPosition(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
 }
 
 
@@ -81,7 +82,11 @@ void HUD::update(RenderWindow& window, Time timedelta)
 
     if (pIsPaused && (*pIsPaused))
     {
-        setMessageText("Out of time!!");
+        if (pTimeRemaining && (*pTimeRemaining <= 0.0f))
+            setMessageText("Out of time!!");
+        
+        if (pPlayerIsDied && (*pPlayerIsDied))
+            setMessageText("SQUISHED!!");
     }
 
     updateScore(*pScore);

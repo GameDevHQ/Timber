@@ -22,8 +22,9 @@ private:
     bool* pIsPaused;        // Only for reading purposes
     int* pScore;            // Only for reading purposes
     float* pTimeRemaining;  // Only for reading purposes
+    bool* pPlayerIsDied;    // Only for reading purposes
 public:
-    HUD(bool* pIsPaused, int* score, float* pTimeRemaining);
+    HUD(bool* pIsPaused, int* score, float* pTimeRemaining, bool* playerIsDied);
 
     virtual void update(RenderWindow& window, Time timedelta) override;
     virtual void draw(RenderWindow& window) override;

@@ -48,8 +48,9 @@ int main()
     bool isPaused = true;           // Track whether the game is running
     int score = 0;                  // Score per game
     float timeRemaining = 6.0f;     // Time remaining
+    bool playerIsDied = false;      // Player is squished by branch?
 
-    HUD hud(&isPaused, &score, &timeRemaining);
+    HUD hud(&isPaused, &score, &timeRemaining, &playerIsDied);
 
     // Prepare branches
     Texture textureBranch;
@@ -140,6 +141,7 @@ int main()
             isPaused = false;
             score = 0;
             timeRemaining = 5;
+            playerIsDied = false;
 
             // Make all the branches disappear
             for (int i = 1; i < NUM_BRANCHES; i++)
@@ -249,6 +251,37 @@ int main()
                     // Hide the branch
                     branches[i].setPosition(3000, height);
                 }
+            }
+
+            // Handle a flying log
+            if (logActive)
+            {
+                float newPositionX = spriteLog.getPosition().x + (logSpeedX * timedelta.asSeconds());
+                float newPositionY = spriteLog.getPosition().y + (logSpeedY * timedelta.asSeconds());
+                spriteLog.setPosition(newPositionX, newPositionY);
+
+                // Has the log reached the right hand edge?
+                if (spriteLog.getPosition().x < -100 || spriteLog.getPosition().x > 2000)
+                {
+                    // Set it up ready to be a whole new log next frame
+                    logActive = false;
+                    spriteLog.setPosition(810, 720);
+                }
+            }
+
+            // Has the player been squished by a branch?
+            if (branchPositions[5] == playerSide)
+            {
+                // Death
+                isPaused = true;
+                playerIsDied = true;
+                acceptInput = false;
+
+                // Draw the gravestone
+                spriteRIP.setPosition(525, 760);
+                
+                // Hide the player
+                spritePlayer.setPosition(2000, 660);
             }
 
             hud.update(window, timedelta);
