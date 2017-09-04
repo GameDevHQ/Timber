@@ -15,5 +15,5 @@ Requirements
 Screenshots
 -----------
 <p align="center">
-  <img src=""/>
+  <img src="https://github.com/GameDevHQ/Timber/blob/master/Screenshots/Screenshot_1.png"/>
 </p>
