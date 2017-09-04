@@ -19,6 +19,7 @@ private:
     float timeBarHeight;
     float timeBarWidthPerSecond;
 
+    int oldScore;           // Previous value of the players score
     bool* pIsPaused;        // Only for reading purposes
     int* pScore;            // Only for reading purposes
     float* pTimeRemaining;  // Only for reading purposes

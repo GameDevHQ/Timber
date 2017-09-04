@@ -62,7 +62,6 @@ void HUD::setMessageText(std::string text)
 
 void HUD::updateScore(int score)
 {
-    // Update score
     std::stringstream ss;
     ss << "Score = " << score;
     scoreText.setString(ss.str());
@@ -84,12 +83,16 @@ void HUD::update(RenderWindow& window, Time timedelta)
     {
         if (pTimeRemaining && (*pTimeRemaining <= 0.0f))
             setMessageText("Out of time!!");
-        
+
         if (pPlayerIsDied && (*pPlayerIsDied))
             setMessageText("SQUISHED!!");
     }
 
-    updateScore(*pScore);
+    if (pScore && (*pScore) != oldScore)
+    {
+        oldScore = *pScore;
+        updateScore(oldScore);
+    }
 }
 
 
