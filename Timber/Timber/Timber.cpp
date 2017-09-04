@@ -5,6 +5,7 @@
 #include "Cloud.h"
 #include "Tree.h"
 #include "HUD.h"
+#include "SFML/Audio.hpp"
 
 
 void updateBranches(int seed);
@@ -111,6 +112,24 @@ int main()
     // Control the player input
     bool acceptInput = false;
 
+    // Prepare the chop sound
+    SoundBuffer chopBuffer;
+    chopBuffer.loadFromFile("Resources/Sound/chop.wav");
+    Sound chop;
+    chop.setBuffer(chopBuffer);
+
+    // Death sound
+    SoundBuffer deathBuffer;
+    deathBuffer.loadFromFile("Resources/Sound/death.wav");
+    Sound death;
+    death.setBuffer(deathBuffer);
+
+    // Out of time
+    SoundBuffer ootBuffer;
+    ootBuffer.loadFromFile("Resources/Sound/out_of_time.wav");
+    Sound outOfTime;
+    outOfTime.setBuffer(ootBuffer);
+
     while(window.isOpen())
     {
         //--------------------------------------------------
@@ -180,6 +199,9 @@ int main()
                 logSpeedX = -5000;
                 logActive = true;
                 acceptInput = false;
+
+                // Play a chop sound
+                chop.play();
             }
             else if (Keyboard::isKeyPressed(Keyboard::Left))
             {
@@ -202,8 +224,10 @@ int main()
                 logActive = true;
 
                 acceptInput = false;
-            }
 
+                // Play a chop sound
+                chop.play();
+            }
         }
 
         //--------------------------------------------------
@@ -221,6 +245,9 @@ int main()
             {
                 // Pause the game
                 isPaused = true;
+
+                // Play the out of time sound
+                outOfTime.play();
             }
 
             bee.update(window, timedelta);
@@ -282,6 +309,9 @@ int main()
                 
                 // Hide the player
                 spritePlayer.setPosition(2000, 660);
+
+                // Play the death sound
+                death.play();
             }
 
             hud.update(window, timedelta);
