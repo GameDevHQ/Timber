@@ -11,12 +11,12 @@ Background::Background(): Object("Resources/Graphics/background.png")
 }
 
 
-void Background::Update(RenderWindow& window, Time timedelta)
+void Background::update(RenderWindow& window, Time timedelta)
 {
 }
 
 
-void Background::Draw(RenderWindow& window)
+void Background::draw(RenderWindow& window)
 {
     window.draw(objectSprite);
 }

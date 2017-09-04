@@ -72,12 +72,12 @@ int main()
                 isPaused = true;
             }
 
-            bee.Update(window, timedelta);
+            bee.update(window, timedelta);
 
             for (auto it = clouds.begin(); it != clouds.end(); it++)
-                it->Update(window, timedelta);
+                it->update(window, timedelta);
 
-            hud.Update(window, timedelta);
+            hud.update(window, timedelta);
         }
 
         //--------------------------------------------------
@@ -85,14 +85,14 @@ int main()
         //--------------------------------------------------
         window.clear();
 
-        background.Draw(window);
+        background.draw(window);
 
         for (auto it = clouds.begin(); it != clouds.end(); it++)
-            it->Draw(window);
+            it->draw(window);
 
-        tree.Draw(window);
-        bee.Draw(window);
-        hud.Draw(window);
+        tree.draw(window);
+        bee.draw(window);
+        hud.draw(window);
 
         window.display();
     }

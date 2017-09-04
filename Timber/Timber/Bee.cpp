@@ -15,18 +15,18 @@ speed(0.0f)
 }
 
 
-void Bee::Update(RenderWindow& window, Time timedelta)
+void Bee::update(RenderWindow& window, Time timedelta)
 {
     if (!isActive)
     {
         // How fast is the bee
         srand((int)time(NULL) * 10);
-        speed = (rand() % 200) + 200;
+        speed = static_cast<float>((rand() % 200) + 200);
 
         // How high is the bee
         srand((int)time(NULL) * 10);
-        float startPositionX = WINDOW_WIDTH + objectTexture.getSize().x;
-        float startPositionY = (rand() % 500) + 500;
+        float startPositionX = static_cast<float>(WINDOW_WIDTH + objectTexture.getSize().x);
+        float startPositionY = static_cast<float>((rand() % 500) + 500);
         objectSprite.setPosition(startPositionX, startPositionY);
         isActive = true;
     }
@@ -46,7 +46,7 @@ void Bee::Update(RenderWindow& window, Time timedelta)
 }
 
 
-void Bee::Draw(RenderWindow& window)
+void Bee::draw(RenderWindow& window)
 {
     window.draw(objectSprite);
 }

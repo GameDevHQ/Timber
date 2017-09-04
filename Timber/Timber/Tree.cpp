@@ -11,12 +11,12 @@ Tree::Tree(float positionX, float positionY): Object("Resources/Graphics/tree.pn
 }
 
 
-void Tree::Update(RenderWindow& window, Time timedelta)
+void Tree::update(RenderWindow& window, Time timedelta)
 {
 }
 
 
-void Tree::Draw(RenderWindow& window)
+void Tree::draw(RenderWindow& window)
 {
     window.draw(objectSprite);
 }

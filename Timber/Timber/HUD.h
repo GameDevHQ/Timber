@@ -25,8 +25,8 @@ private:
 public:
     HUD(bool* pIsPaused, int* score, float* pTimeRemaining);
 
-    virtual void Update(RenderWindow& window, Time timedelta) override;
-    virtual void Draw(RenderWindow& window) override;
+    virtual void update(RenderWindow& window, Time timedelta) override;
+    virtual void draw(RenderWindow& window) override;
 private:
     void setMessageText(std::string text);
     void updateScore(int score);

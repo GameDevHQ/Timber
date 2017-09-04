@@ -16,7 +16,7 @@ movementScale(movementScale)
 }
 
 
-void Cloud::Update(RenderWindow& window, Time timedelta)
+void Cloud::update(RenderWindow& window, Time timedelta)
 {
     if (!isActive)
     {
@@ -45,7 +45,7 @@ void Cloud::Update(RenderWindow& window, Time timedelta)
 }
 
 
-void Cloud::Draw(RenderWindow& window)
+void Cloud::draw(RenderWindow& window)
 {
     window.draw(objectSprite);
 }

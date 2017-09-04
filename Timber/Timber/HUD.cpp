@@ -75,7 +75,7 @@ void HUD::updateTimeRemaining(float timeRemaining)
 }
 
 
-void HUD::Update(RenderWindow& window, Time timedelta)
+void HUD::update(RenderWindow& window, Time timedelta)
 {
     updateTimeRemaining(*pTimeRemaining);
 
@@ -88,7 +88,7 @@ void HUD::Update(RenderWindow& window, Time timedelta)
 }
 
 
-void HUD::Draw(RenderWindow& window)
+void HUD::draw(RenderWindow& window)
 {
     // Draw the timebar
     window.draw(timeBar);

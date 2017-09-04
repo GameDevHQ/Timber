@@ -12,6 +12,6 @@ public:
     Object(std::string pathToTexture);
     virtual ~Object() = default;
 
-    virtual void Update(RenderWindow& window, Time timedelta) = 0;
-    virtual void Draw(RenderWindow& window) = 0;
+    virtual void update(RenderWindow& window, Time timedelta) = 0;
+    virtual void draw(RenderWindow& window) = 0;
 };
