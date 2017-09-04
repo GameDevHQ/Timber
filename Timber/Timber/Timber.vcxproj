@@ -153,6 +153,7 @@
     <ClInclude Include="Bee.h" />
     <ClInclude Include="Cloud.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sound.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Bee.cpp" />
     <ClCompile Include="Cloud.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sound.cpp" />

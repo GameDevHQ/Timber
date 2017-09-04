@@ -6,6 +6,7 @@
 #include "Tree.h"
 #include "HUD.h"
 #include "Player.h"
+#include "Log.h"
 #include "Sound.h"
 
 
@@ -42,20 +43,8 @@ int main()
     bool playerIsDied = false;      // Player is squished by branch?
 
     Player player;
+    Log log;
     HUD hud(&isPaused, &score, &timeRemaining, &playerIsDied);
-
-    // Prepare the flying log
-    Texture textureLog;
-    textureLog.loadFromFile("Resources/Graphics/log.png");
-
-    Sprite spriteLog;
-    spriteLog.setTexture(textureLog);
-    spriteLog.setPosition(810, 720);
-
-    // Some other useful log related variables
-    bool logActive = false;
-    float logSpeedX = 1000;
-    float logSpeedY = -1500;
 
     // Control the player input
     bool acceptInput = false;
@@ -120,9 +109,8 @@ int main()
                 tree.updateBranches(score);
 
                 // Set the log flying to the left
-                spriteLog.setPosition(810, 720);
-                logSpeedX = -5000;
-                logActive = true;
+                log.setIsFlyingLeft();
+
                 acceptInput = false;
 
                 // Play a chop sound
@@ -139,11 +127,8 @@ int main()
                 // Update the branches
                 tree.updateBranches(score);
 
-                // Set the log flying
-                spriteLog.setPosition(810, 720);
-
-                logSpeedX = 5000;
-                logActive = true;
+                // Set the log flying to the right
+                log.setIsFlyingRight();
 
                 acceptInput = false;
 
@@ -177,24 +162,11 @@ int main()
             for (auto it = clouds.begin(); it != clouds.end(); it++)
                 it->update(window, timedelta);
 
-            // update the branch sprites
+            // Update the branch sprites
             tree.update(window, timedelta);
 
             // Handle a flying log
-            if (logActive)
-            {
-                float newPositionX = spriteLog.getPosition().x + (logSpeedX * timedelta.asSeconds());
-                float newPositionY = spriteLog.getPosition().y + (logSpeedY * timedelta.asSeconds());
-                spriteLog.setPosition(newPositionX, newPositionY);
-
-                // Has the log reached the right hand edge?
-                if (spriteLog.getPosition().x < -100 || spriteLog.getPosition().x > 2000)
-                {
-                    // Set it up ready to be a whole new log next frame
-                    logActive = false;
-                    spriteLog.setPosition(810, 720);
-                }
-            }
+            log.update(window, timedelta);
 
             // Has the player been squished by a branch?
             if (tree.getNearestBranch() == player.getPlayerSide())
@@ -229,7 +201,7 @@ int main()
 
         tree.draw(window);
         player.draw(window);
-        window.draw(spriteLog);
+        log.draw(window);
         bee.draw(window);
         hud.draw(window);
 
