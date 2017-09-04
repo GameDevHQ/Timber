@@ -5,8 +5,8 @@
 #include "Cloud.h"
 #include "Tree.h"
 #include "HUD.h"
+#include "Player.h"
 #include "Sound.h"
-#include "Util.h"
 
 
 SoundManager soundManager = soundManager.getInstance();
@@ -41,36 +41,8 @@ int main()
     float timeRemaining = 6.0f;     // Time remaining
     bool playerIsDied = false;      // Player is squished by branch?
 
+    Player player;
     HUD hud(&isPaused, &score, &timeRemaining, &playerIsDied);
-
-    // Prepare the player
-    Texture texturePlayer;
-    texturePlayer.loadFromFile("Resources/Graphics/player.png");
-
-    Sprite spritePlayer;
-    spritePlayer.setTexture(texturePlayer);
-    spritePlayer.setPosition(580, 720);
-
-    // The player starts on the left
-    side playerSide = side::LEFT;
-
-    // Prepare the gravestone
-    Texture textureRIP;
-    textureRIP.loadFromFile("Resources/Graphics/rip.png");
-    Sprite spriteRIP;
-    spriteRIP.setTexture(textureRIP);
-    spriteRIP.setPosition(600, 860);
-
-    // Prepare the axe
-    Texture textureAxe;
-    textureAxe.loadFromFile("Resources/Graphics/axe.png");
-    Sprite spriteAxe;
-    spriteAxe.setTexture(textureAxe);
-    spriteAxe.setPosition(700, 830);
-
-    // Line the axe up with the tree
-    const float AXE_POSITION_LEFT = 700;
-    const float AXE_POSITION_RIGHT = 1075;
 
     // Prepare the flying log
     Texture textureLog;
@@ -103,7 +75,7 @@ int main()
                 acceptInput = true;
                 
                 // Hide the axe
-                spriteAxe.setPosition(2000, spriteAxe.getPosition().y);
+                player.hideAxe();
             }
         }
 
@@ -124,10 +96,11 @@ int main()
             tree.dissapearAllBranches();
 
             // Make sure the gravestone is hidden
-            spriteRIP.setPosition(675, 2000);
+            player.hideGravestone();
 
             // Move the player into position
-            spritePlayer.setPosition(580, 720);
+            player.moveRight();
+
             acceptInput = true;
         }
 
@@ -137,14 +110,11 @@ int main()
             // First handle pressing the right cursor key
             if (Keyboard::isKeyPressed(Keyboard::Right))
             {
-                // Make sure the player is on the right
-                playerSide = side::RIGHT;
+                player.moveRight();
                 score++;
-                
+
                 // Add to the amount of time remaining
                 timeRemaining += (2 / score) + .15;
-                spriteAxe.setPosition(AXE_POSITION_RIGHT, spriteAxe.getPosition().y);
-                spritePlayer.setPosition(1200, 720);
                 
                 // Update the branches
                 tree.updateBranches(score);
@@ -160,14 +130,11 @@ int main()
             }
             else if (Keyboard::isKeyPressed(Keyboard::Left))
             {
-                // Make sure the player is on the left
-                playerSide = side::LEFT;
+                player.moveLeft();
                 score++;
 
                 // Add to the amount of time remaining
                 timeRemaining += (2 / score) + .15;
-                spriteAxe.setPosition(AXE_POSITION_LEFT, spriteAxe.getPosition().y);
-                spritePlayer.setPosition(580, 720);
 
                 // Update the branches
                 tree.updateBranches(score);
@@ -230,7 +197,7 @@ int main()
             }
 
             // Has the player been squished by a branch?
-            if (tree.getNearestBranch() == playerSide)
+            if (tree.getNearestBranch() == player.getPlayerSide())
             {
                 // Death
                 isPaused = true;
@@ -238,10 +205,10 @@ int main()
                 acceptInput = false;
 
                 // Draw the gravestone
-                spriteRIP.setPosition(525, 760);
+                player.showGravestone();
                 
                 // Hide the player
-                spritePlayer.setPosition(2000, 660);
+                player.hidePlayer();
 
                 // Play the death sound
                 soundManager.play("death");
@@ -261,11 +228,8 @@ int main()
             it->draw(window);
 
         tree.draw(window);
-        window.draw(spritePlayer);
-        window.draw(spriteAxe);
+        player.draw(window);
         window.draw(spriteLog);
-        window.draw(spriteRIP);
-
         bee.draw(window);
         hud.draw(window);
 
