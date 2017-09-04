@@ -5,7 +5,7 @@
 #include "Cloud.h"
 #include "Tree.h"
 #include "HUD.h"
-#include "SFML/Audio.hpp"
+#include "Sound.h"
 
 
 void updateBranches(int seed);
@@ -20,6 +20,8 @@ const int NUM_BRANCHES = 6;
 Sprite branches[NUM_BRANCHES];
 side branchPositions[NUM_BRANCHES];
 
+
+SoundManager soundManager = soundManager.getInstance();
 
 
 int main()
@@ -112,24 +114,6 @@ int main()
     // Control the player input
     bool acceptInput = false;
 
-    // Prepare the chop sound
-    SoundBuffer chopBuffer;
-    chopBuffer.loadFromFile("Resources/Sound/chop.wav");
-    Sound chop;
-    chop.setBuffer(chopBuffer);
-
-    // Death sound
-    SoundBuffer deathBuffer;
-    deathBuffer.loadFromFile("Resources/Sound/death.wav");
-    Sound death;
-    death.setBuffer(deathBuffer);
-
-    // Out of time
-    SoundBuffer ootBuffer;
-    ootBuffer.loadFromFile("Resources/Sound/out_of_time.wav");
-    Sound outOfTime;
-    outOfTime.setBuffer(ootBuffer);
-
     while(window.isOpen())
     {
         //--------------------------------------------------
@@ -201,7 +185,7 @@ int main()
                 acceptInput = false;
 
                 // Play a chop sound
-                chop.play();
+                soundManager.play("chop");
             }
             else if (Keyboard::isKeyPressed(Keyboard::Left))
             {
@@ -226,7 +210,7 @@ int main()
                 acceptInput = false;
 
                 // Play a chop sound
-                chop.play();
+                soundManager.play("chop");
             }
         }
 
@@ -247,7 +231,7 @@ int main()
                 isPaused = true;
 
                 // Play the out of time sound
-                outOfTime.play();
+                soundManager.play("out_of_time");
             }
 
             bee.update(window, timedelta);
@@ -311,7 +295,7 @@ int main()
                 spritePlayer.setPosition(2000, 660);
 
                 // Play the death sound
-                death.play();
+                soundManager.play("death");
             }
 
             hud.update(window, timedelta);
