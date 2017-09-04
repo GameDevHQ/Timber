@@ -6,19 +6,7 @@
 #include "Tree.h"
 #include "HUD.h"
 #include "Sound.h"
-
-
-void updateBranches(int seed);
-enum class side
-{
-    LEFT,
-    RIGHT,
-    NONE
-};
-
-const int NUM_BRANCHES = 6;
-Sprite branches[NUM_BRANCHES];
-side branchPositions[NUM_BRANCHES];
+#include "Util.h"
 
 
 SoundManager soundManager = soundManager.getInstance();
@@ -54,20 +42,6 @@ int main()
     bool playerIsDied = false;      // Player is squished by branch?
 
     HUD hud(&isPaused, &score, &timeRemaining, &playerIsDied);
-
-    // Prepare branches
-    Texture textureBranch;
-    textureBranch.loadFromFile("Resources/Graphics/branch.png");
-
-    // Set the texture for each branch sprite
-    for (int i = 0; i < NUM_BRANCHES; i++)
-    {
-        branches[i].setTexture(textureBranch);
-        branches[i].setPosition(-2000, -2000);
-        // Set the sprite's origin to dead center
-        // We can then spin it round without changing its position
-        branches[i].setOrigin(220, 20);
-    }
 
     // Prepare the player
     Texture texturePlayer;
@@ -147,10 +121,7 @@ int main()
             playerIsDied = false;
 
             // Make all the branches disappear
-            for (int i = 1; i < NUM_BRANCHES; i++)
-            {
-                branchPositions[i] = side::NONE;
-            }
+            tree.dissapearAllBranches();
 
             // Make sure the gravestone is hidden
             spriteRIP.setPosition(675, 2000);
@@ -176,7 +147,7 @@ int main()
                 spritePlayer.setPosition(1200, 720);
                 
                 // Update the branches
-                updateBranches(score);
+                tree.updateBranches(score);
 
                 // Set the log flying to the left
                 spriteLog.setPosition(810, 720);
@@ -199,7 +170,7 @@ int main()
                 spritePlayer.setPosition(580, 720);
 
                 // Update the branches
-                updateBranches(score);
+                tree.updateBranches(score);
 
                 // Set the log flying
                 spriteLog.setPosition(810, 720);
@@ -240,29 +211,7 @@ int main()
                 it->update(window, timedelta);
 
             // update the branch sprites
-            for (int i = 0; i < NUM_BRANCHES; i++)
-            {
-                float height = i * 150;
-                if (branchPositions[i] == side::LEFT)
-                {
-                    // Move the sprite to the left side
-                    branches[i].setPosition(610, height);
-                    // Flip the sprite round the other way
-                    branches[i].setRotation(180);
-                }
-                else if (branchPositions[i] == side::RIGHT)
-                {
-                    // Move the sprite to the right side
-                    branches[i].setPosition(1330, height);
-                    // Set the sprite rotation to normal
-                    branches[i].setRotation(0);
-                }
-                else
-                {
-                    // Hide the branch
-                    branches[i].setPosition(3000, height);
-                }
-            }
+            tree.update(window, timedelta);
 
             // Handle a flying log
             if (logActive)
@@ -281,7 +230,7 @@ int main()
             }
 
             // Has the player been squished by a branch?
-            if (branchPositions[5] == playerSide)
+            if (tree.getNearestBranch() == playerSide)
             {
                 // Death
                 isPaused = true;
@@ -312,10 +261,6 @@ int main()
             it->draw(window);
 
         tree.draw(window);
-        for (int i = 0; i < NUM_BRANCHES; i++)
-        {
-            window.draw(branches[i]);
-        }
         window.draw(spritePlayer);
         window.draw(spriteAxe);
         window.draw(spriteLog);
@@ -328,31 +273,4 @@ int main()
     }
 
     return 0;
-}
-
-
-void updateBranches(int seed)
-{
-    // Move all the branches down one place
-    for (int j = NUM_BRANCHES - 1; j > 0; j--)
-    {
-        branchPositions[j] = branchPositions[j - 1];
-    }
-
-    // Spawn a new branch at position 0
-    // LEFT, RIGHT or NONE
-    srand(static_cast<unsigned int>(time(0) + seed));
-    int r = (rand() % 5);
-    switch (r)
-    {
-    case 0:
-        branchPositions[0] = side::LEFT;
-        break;
-    case 1:
-        branchPositions[0] = side::RIGHT;
-        break;
-    default:
-        branchPositions[0] = side::NONE;
-        break;
-    }
 }
