@@ -3,8 +3,8 @@ The Timberman game clone, which is based on ideas and concepts from a "Beginning
 
 Hotkeys
 --------
-- "Escape" for a exit from the game
-- "Enter" for a start new game
+- "Esc" for exit from the game
+- "Enter" for start the game
 - "Right arrow" / "Left arrow" for making a cut of a tree from an appropriate side
 
 Requirements
